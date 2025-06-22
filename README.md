@@ -50,3 +50,76 @@ uvicorn src.main:app --reload
 Environment variables:
 - `CHROMA_DB_PATH` - Path to persist ChromaDB data (default: `.chromadb`)
 - `MODEL_NAME` - HuggingFace model name (default: `t5-small`)
+
+## Example: LLM-based /query request
+
+### Request
+```
+POST /api/v1/query?top_k=3
+{
+  "question": "What is the main topic of the document?"
+}
+```
+
+### Response
+```
+{
+  "answer": "The main topic is ...",
+  "context": [
+    "First relevant chunk...",
+    "Second relevant chunk...",
+    "Third relevant chunk..."
+  ],
+  "top_k": 3
+}
+```
+
+The system uses a HuggingFace LLM (e.g., T5-small) to generate the answer based on the top-k retrieved chunks.
+
+## Example: NLU-enhanced /query request
+
+### Request
+```
+POST /api/v1/query?top_k=3
+{
+  "question": "What is the main topic of the document?"
+}
+```
+
+### Response
+```
+{
+  "nlu": {
+    "question": "What is the main topic of the document?",
+    "labels": ["definition", "factoid", ...],
+    "scores": [0.85, 0.10, ...],
+    "top_label": "definition",
+    "top_score": 0.85
+  },
+  "answer": "The main topic is ...",
+  "context": [
+    "First relevant chunk...",
+    "Second relevant chunk...",
+    "Third relevant chunk..."
+  ],
+  "top_k": 3
+}
+```
+
+The system uses an NLU model to analyze the question and a HuggingFace LLM (e.g., T5-small) to generate the answer based on the top-k retrieved chunks.
+
+## Example Input Documents
+
+- `Dhruv Sharma.pdf`: A PDF file containing a my CV or any text document.
+
+## Example Questions and Expected Outputs
+
+| Example Question                                      | Example Output (answer)                |
+|------------------------------------------------------|----------------------------------------|
+| What companies has the candidate worked for?          | Google, Microsoft, OpenAI              |
+| What programming languages does the candidate know?   | Python, Java, C++                      |
+| What is the main topic of the document?               | The main topic is ...                  |
+| List all certifications mentioned in the document.    | AWS Certified, PMP, Scrum Master       |
+| What is the candidate's highest degree?               | Master of Science in Computer Science  |
+
+*Note: Outputs will vary depending on the document content.*
