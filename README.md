@@ -13,12 +13,12 @@ A containerized Python application that implements a Retrieval-Augmented Generat
 
 1. Build the Docker image:
 ```bash
-docker build -t rag-chatbot .
+make build
 ```
 
 2. Run the container:
 ```bash
-docker run -p 8000:8000 rag-chatbot
+make run
 ```
 
 3. Test the API:
