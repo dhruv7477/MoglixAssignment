@@ -192,3 +192,10 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+#system
+.DS_Store
+.chromadb
+.roo
+.vscode-test
+.vscode-test-data
